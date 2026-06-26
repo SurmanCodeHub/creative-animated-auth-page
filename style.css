@@ -1,0 +1,255 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #030308;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- STAGE ENVIRONMENT --- */
+.stage {
+    position: relative;
+    width: 1000px;
+    height: 600px;
+    background: #06060f;
+    border-radius: 24px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.9);
+    overflow: hidden;
+    border: 1px solid #14142b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Coding Matrix Background */
+.stage::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(6, 6, 15, 0.95), rgba(6, 6, 15, 0.98)),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="20"><text x="0" y="15" fill="rgba(0, 242, 254, 0.04)" font-family="monospace" font-size="11">if(codeHub) { signup };</text></svg>');
+    z-index: 1;
+    animation: matrixMove 30s linear infinite;
+}
+
+@keyframes matrixMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 1000px; }
+}
+
+/* --- 1. FIXED CINEMATIC INTRO TEXTS --- */
+.intro-screen {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    pointer-events: none;
+}
+
+.cine-title {
+    font-size: 52px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 12px;
+    text-transform: uppercase;
+    text-shadow: 0 0 30px rgba(0, 242, 254, 0.6);
+    opacity: 0;
+    display: none;
+}
+
+.cine-subtitle {
+    font-size: 24px;
+    font-weight: 600;
+    color: #ff9f1c;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px rgba(255, 159, 28, 0.4);
+    margin-top: 15px;
+    text-align: center;
+    opacity: 0;
+    display: none;
+}
+
+/* Animation timings triggered via JavaScript */
+.fade-in-out {
+    display: block;
+    animation: cineFadeInOut 2.2s forwards cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes cineFadeInOut {
+    0% { opacity: 0; transform: scale(0.95) translateY(20px); filter: blur(10px); }
+    30%, 70% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+    100% { opacity: 0; transform: scale(1.05) translateY(-20px); filter: blur(10px); }
+}
+
+
+/* --- 2. FIXED ANIMATED FULL LAPTOP SYSTEM --- */
+.laptop-workspace {
+    position: relative;
+    width: 580px;
+    height: 440px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    transform: scale(0);
+}
+
+/* Intro khatam hote hi poora laptop jump karega */
+.laptop-workspace.trigger-jump {
+    animation: laptopJump 1.2s 4.6s forwards cubic-bezier(0.175, 0.885, 0.32, 1.35);
+}
+
+@keyframes laptopJump {
+    0% { transform: scale(0) translateY(150px); }
+    50% { transform: scale(1.08) translateY(-40px) rotate(-4deg); } 
+    75% { transform: scale(0.96) translateY(10px) rotate(2deg); }   
+    100% { transform: scale(1) translateY(0) rotate(0deg); }
+}
+
+/* LAPTOP SIDES & PASS SYSTEM (DUR AUR PAAS LOOK) */
+.laptop-workspace.slide-out-away {
+    animation: slideAwayAndPass 1.3s forwards cubic-bezier(0.68, -0.55, 0.265, 1.4);
+}
+
+@keyframes slideAwayAndPass {
+    0% { transform: translate(0, 0) scale(1); }
+    40% { transform: translate(160px, -30px) scale(0.82) rotate(6deg); opacity: 0.6; filter: blur(2px); } /* Side aur Dur gya */
+    100% { transform: translate(0, 0) scale(1.06); opacity: 1; filter: blur(0); } /* Zoom hokar ekdum Paas aaya */
+}
+
+/* --- LAPTOP BODY STRUCTURE --- */
+
+/* [Laptop Part 1]: Transparent Screen Interface */
+.screen-interface {
+    width: 100%;
+    height: 380px;
+    background: rgba(10, 14, 26, 0.35);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px 20px 0 0;
+    padding: 30px 40px;
+    box-shadow: inset 0 0 30px rgba(0, 242, 254, 0.05);
+    opacity: 0;
+    transform-origin: bottom center;
+    transform: rotateX(-90deg); /* Pehle lid close rahegi */
+    transition: all 0.6s 5.7s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.laptop-workspace.trigger-jump .screen-interface {
+    opacity: 1;
+    transform: rotateX(0deg); /* Jump hote hi lid upar khulegi */
+}
+
+/* [Laptop Part 2]: Metal Keyboard Base Panel */
+.laptop-base {
+    width: 100%;
+    height: 16px;
+    background: linear-gradient(to bottom, #2d323f, #151821);
+    border-radius: 0 0 16px 16px;
+    border-top: 2px solid #51596e;
+    position: relative;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+/* Touchpad design slot */
+.laptop-base::after {
+    content: "";
+    position: absolute;
+    top: 1px; left: 50%;
+    transform: translateX(-50%);
+    width: 90px; height: 6px;
+    background: #11131a;
+    border-radius: 0 0 4px 4px;
+}
+
+
+/* --- 3. GLASSMORPHIC INTERACTIVE FORMS --- */
+.form-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+.form-header h2 {
+    font-size: 21px;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+.signup-mode h2 { color: #00f2fe; text-shadow: 0 0 20px rgba(0,242,254,0.4); }
+.login-mode h2 { color: #ff9f1c; text-shadow: 0 0 20px rgba(255,159,28,0.4); }
+
+.form-tabs {
+    display: flex;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 5px;
+    border-radius: 12px;
+    margin-bottom: 22px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 10px;
+    color: #72728c;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.tab-btn.active-signup { background: #00f2fe; color: #050510; box-shadow: 0 4px 12px rgba(0,242,254,0.4); }
+.tab-btn.active-login { background: #ff9f1c; color: #050510; box-shadow: 0 4px 12px rgba(255,159,28,0.4); }
+
+.panel-box { display: none; }
+.panel-box.active { display: block; animation: panelFade 0.4s ease forwards; }
+
+@keyframes panelFade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.panel-box input {
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    color: #fff;
+    outline: none;
+    transition: 0.3s;
+}
+
+.signup-mode input:focus { border-color: #00f2fe; box-shadow: 0 0 12px rgba(0,242,254,0.15); }
+.login-mode input:focus { border-color: #ff9f1c; box-shadow: 0 0 12px rgba(255,159,28,0.15); }
+
+.action-btn {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.signup-mode .action-btn { background: linear-gradient(90deg, #00f2fe, #0077ff); color: white; }
+.login-mode .action-btn { background: linear-gradient(90deg, #ff9f1c, #ff6b6b); color: white; }
